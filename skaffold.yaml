@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/q131172019/stateful-voting-app-worker-java:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/q131172019/stateful-voting-app-worker-java:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: stateful-voting-app-worker-java
+        chartPath: charts/stateful-voting-app-worker-java
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/q131172019/stateful-voting-app-worker-java'
+          image.tag: '{{.DIGEST_HEX}}'
