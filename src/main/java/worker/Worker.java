@@ -74,7 +74,7 @@ class Worker {
         try {
           conn = DriverManager.getConnection(url, "postgres", "");
         } catch (SQLException e) {
-          System.err.println("Waiting for Stateful PostGreSQL Primary db on 02/27/2019");
+          System.err.println("Waiting for Stateful PostGreSQL Primary db on 02/28/2019");
           sleep(1000);
         }
       }
